@@ -14,7 +14,6 @@ class Quote(Base):
     author = Column(String)
     tags = Column(String)
 
-# Подключение к PostgreSQL в контейнере db
 engine = create_engine("postgresql://parser:secret@db:5432/quotes_db")
 Base.metadata.create_all(engine)
 
@@ -26,7 +25,7 @@ async def fetch_page(client, page):
         data = response.json()
         
         quotes = []
-        for item in data["quotes"]:  # data["quotes"] — это СПИСОК словарей
+        for item in data["quotes"]:
             quotes.append({
                 "text": item.get("text", ""),
                 "author": item.get("author", {}).get("name", "Unknown") if isinstance(item.get("author"), dict) else item.get("author", "Unknown"),
@@ -47,7 +46,7 @@ async def fetch_all():
             q = Quote(
                 text=quote["text"],
                 author=quote["author"],
-                tags=quote["tags"]   # уже строка, не список
+                tags=quote["tags"]   
             )
             session.add(q)
 

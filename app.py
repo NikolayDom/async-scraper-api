@@ -38,7 +38,6 @@ def quotes_count():
 @app.post("/quotes/cleanup")
 def cleanup_duplicates():
     session = Session(engine)
-    # Найти все дубликаты (одинаковые text + author) и удалить лишние
     from sqlalchemy import text
     session.execute(text("""
         DELETE FROM quotes
